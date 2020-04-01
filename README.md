@@ -1,8 +1,21 @@
-# A React Js and Node Js Boilerplate
-## Installation Instructions
+# Image Uploads on AWS Bucket
 
-Install nodemon and create-react-app globally using below command:
+## Description :clipboard:
 
-`$ npm i -D nodemon`
+> Demo App for Single and Multiple Image Uploads on AWS ( Amazon Web Services ) Bucket
 
-`npm i -g create-react-app`
+## Use :point_right:
+
+Update your AWS accessKeyId, secretAccessKey and Bucket name in `./routes/api/profile.js`
+
+## Installation Instructions :wrench:
+
+1. `npm install`
+2. `cd client`
+3. `npm install`
+4. `cd ..`
+5. `npm run dev`
+
+## For PROD build
+
+yarn build

@@ -17,6 +17,9 @@ app.use( bodyParser.json() );
 // We export the router so that the server.js file can pick it up
 module.exports = router;
 
+const profile = require( './routes/api/profile' );
+app.use( '/api/profile', profile );
+
 // Combine react and node js servers while deploying( YOU MIGHT HAVE ALREADY DONE THIS BEFORE
 // What you need to do is make the build directory on the heroku, which will contain the index.html of your react app and then point the HTTP request to the client/build directory
 
