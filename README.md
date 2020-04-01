@@ -1,12 +1,9 @@
 # Image Uploads on AWS Bucket
 
-## Description :clipboard:
+## Description
 
 > Demo App for Single and Multiple Image Uploads on AWS ( Amazon Web Services ) Bucket
-
-## Use :point_right:
-
-Update your AWS accessKeyId, secretAccessKey and Bucket name in `./routes/api/profile.js`
+> Includes Features like Image Compression and Image Resolution.
 
 ## Installation Instructions :wrench:
 
@@ -18,4 +15,4 @@ Update your AWS accessKeyId, secretAccessKey and Bucket name in `./routes/api/pr
 
 ## For PROD build
 
-yarn build
+`yarn build`
