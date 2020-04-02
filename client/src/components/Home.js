@@ -60,6 +60,7 @@ class Home extends Component {
               let fileName = response.data;
               console.log("filedata", fileName);
               this.ocShowAlert("File Uploaded", "#3089cf");
+              this.showLocation(fileName);
             }
           }
         })
@@ -116,6 +117,9 @@ class Home extends Component {
       this.ocShowAlert("Please upload file", "red");
     }
   };
+
+  //show image
+  showLocation = () => {};
 
   // ShowAlert Function
   ocShowAlert = (message, background = "#3089cf") => {
