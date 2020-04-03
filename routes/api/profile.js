@@ -3,15 +3,17 @@ const aws = require("aws-sdk");
 const multerS3 = require("multer-s3");
 const multer = require("multer");
 const path = require("path");
+const keys = require("../keys");
 
 const router = express.Router();
 
 /**
  * PROFILE IMAGE STORING STARTS
  */
+
 const s3 = new aws.S3({
-  accessKeyId: "AKIAZMBMQGAXCV4YUM37",
-  secretAccessKey: "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",
+  accessKeyId: keys.ACCESS_KEY,
+  secretAccessKey: keys.ACCESS_PASS,
   Bucket: "chinu-bucket"
 });
 
@@ -91,7 +93,7 @@ router.post("/profile-img-upload", (req, res) => {
 });
 
 /**
- * BUSINESS GALLERY IMAGES
+ *
  * MULTIPLE FILE UPLOADS
  */
 // Multiple File Uploads ( max 4 )

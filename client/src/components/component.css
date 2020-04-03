@@ -6,3 +6,9 @@
 .pointer {
   cursor: pointer;
 }
+
+.imgt {
+  width: 300px;
+  height: 300px;
+  margin: 10px;
+}

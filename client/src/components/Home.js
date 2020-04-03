@@ -10,24 +10,25 @@ class Home extends Component {
     super(props);
     this.state = {
       selectedFile: null,
-      selectedFiles: null
+      selectedFiles: null,
+      isFetched: false,
     };
   }
 
-  singleFileChangedHandler = event => {
+  singleFileChangedHandler = (event) => {
     this.setState({
-      selectedFile: event.target.files[0]
+      selectedFile: event.target.files[0],
     });
   };
 
-  multipleFileChangedHandler = event => {
+  multipleFileChangedHandler = (event) => {
     this.setState({
-      selectedFiles: event.target.files
+      selectedFiles: event.target.files,
     });
     console.log(event.target.files);
   };
 
-  singleFileUploadHandler = event => {
+  singleFileUploadHandler = (event) => {
     const data = new FormData();
     // If file selected
     if (this.state.selectedFile) {
@@ -41,10 +42,10 @@ class Home extends Component {
           headers: {
             accept: "application/json",
             "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data; boundary=${data._boundary}`
-          }
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (200 === response.status) {
             // If file size is larger than expected.
             if (response.data.error) {
@@ -61,10 +62,11 @@ class Home extends Component {
               console.log("filedata", fileName);
               this.ocShowAlert("File Uploaded", "#3089cf");
               this.showLocation(fileName);
+              this.isFetched = true;
             }
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.ocShowAlert(error, "red");
         });
     } else {
@@ -84,10 +86,10 @@ class Home extends Component {
           headers: {
             accept: "application/json",
             "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data; boundary=${data._boundary}`
-          }
+            "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+          },
         })
-        .then(response => {
+        .then((response) => {
           console.log("res", response);
           if (200 === response.status) {
             // If file size is larger than expected.
@@ -97,7 +99,7 @@ class Home extends Component {
               } else if ("LIMIT_UNEXPECTED_FILE" === response.data.error.code) {
                 this.ocShowAlert("Max 4 images allowed", "red");
               } else {
-                // If not the given ile type
+                // If not the given file type
                 this.ocShowAlert(response.data.error, "red");
               }
             } else {
@@ -105,10 +107,11 @@ class Home extends Component {
               let fileName = response.data;
               console.log("fileName", fileName);
               this.ocShowAlert("File Uploaded", "#3089cf");
+              //this.showmultiLocation(fileName);
             }
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // If another error
           this.ocShowAlert(error, "red");
         });
@@ -118,8 +121,32 @@ class Home extends Component {
     }
   };
 
-  //show image
-  showLocation = () => {};
+  //multi show
+
+  // showmultiLocation = (fileName) => {
+  //   //console.log("b", fileName);
+  //   var source = fileName.filesArray;
+  //   console.log(source);
+  //   let imgContainer = document.querySelector("#imgContainer"),
+  //     imgelem = document.createElement("img");
+  //   imgelem.setAttribute("class", "imgt");
+  //   imgelem.setAttribute("src", source);
+  //   imgContainer.appendChild(imgelem);
+  //   $("#hid").show();
+  // };
+
+  //show singleimage
+  showLocation = (fileName) => {
+    //console.log("b", fileName);
+    var source = fileName.location;
+    console.log(source);
+    let imgContainer = document.querySelector("#imgContainer"),
+      imgelem = document.createElement("img");
+    imgelem.setAttribute("class", "imgt");
+    imgelem.setAttribute("src", source);
+    imgContainer.appendChild(imgelem);
+    $("#hid").show();
+  };
 
   // ShowAlert Function
   ocShowAlert = (message, background = "#3089cf") => {
@@ -130,7 +157,7 @@ class Home extends Component {
     $(alertEl).css("background", background);
     alertEl.appendChild(textNode);
     alertContainer.appendChild(alertEl);
-    setTimeout(function() {
+    setTimeout(function () {
       $(alertEl).fadeOut("slow");
       $(alertEl).remove();
     }, 3000);
@@ -165,6 +192,17 @@ class Home extends Component {
               <div className="card-body">
                 <p className="card-text">Please upload an image.</p>
                 <input type="file" onChange={this.singleFileChangedHandler} />
+                <div className="col-md-12 mt-3">
+                  <div className="imgcon" id="imgContainer">
+                    <div
+                      className="subContaner"
+                      id="hid"
+                      style={{ display: "none" }}
+                    >
+                      <p>Uploaded Images:</p>
+                    </div>
+                  </div>
+                </div>
                 <div className="mt-5">
                   <Button
                     color="primary"
@@ -182,7 +220,7 @@ class Home extends Component {
             <div
               className="card border-light mb-3"
               style={{
-                boxShadow: "0 5px 10px 2px rgba(195,192,192,.5)"
+                boxShadow: "0 5px 10px 2px rgba(195,192,192,.5)",
               }}
             >
               <div className="card-header">
