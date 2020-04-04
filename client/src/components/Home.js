@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import $ from "jquery";
 import Setting from "./settings";
+import Navbar from "./navbar";
+import Footer from "./footer";
 import "./component.css";
 import Button from "@material-ui/core/Button";
 
@@ -107,7 +109,7 @@ class Home extends Component {
               let fileName = response.data;
               console.log("fileName", fileName);
               this.ocShowAlert("File Uploaded", "#3089cf");
-              //this.showmultiLocation(fileName);
+              this.showMultiLocation(fileName);
             }
           }
         })
@@ -123,17 +125,26 @@ class Home extends Component {
 
   //multi show
 
-  // showmultiLocation = (fileName) => {
-  //   //console.log("b", fileName);
-  //   var source = fileName.filesArray;
-  //   console.log(source);
-  //   let imgContainer = document.querySelector("#imgContainer"),
-  //     imgelem = document.createElement("img");
-  //   imgelem.setAttribute("class", "imgt");
-  //   imgelem.setAttribute("src", source);
-  //   imgContainer.appendChild(imgelem);
-  //   $("#hid").show();
-  // };
+  showMultiLocation = (fileName) => {
+    //console.log("m", fileName);
+    var source = fileName.filesArray;
+    let gg = source.map((id) => {
+      let mulImgContainer = document.querySelector("#mulImgContainer"),
+        mulImgele = document.createElement("img");
+      mulImgele.setAttribute("class", "imgt");
+      mulImgele.setAttribute("src", id.location);
+      mulImgContainer.appendChild(mulImgele);
+      $("#mhid").show();
+    });
+
+    console.log(source);
+    // let imgContainer = document.querySelector("#imgContainer"),
+    //   imgelem = document.createElement("img");
+    // imgelem.setAttribute("class", "imgt");
+    // imgelem.setAttribute("src", source);
+    // imgContainer.appendChild(imgelem);
+    // $("#hid").show();
+  };
 
   //show singleimage
   showLocation = (fileName) => {
@@ -163,100 +174,131 @@ class Home extends Component {
     }, 3000);
   };
 
+  clearHandler = () => {
+    this.setState({
+      selectedFile: null,
+      selectedFiles: null,
+    });
+  };
+
   render() {
     console.log(this.state);
     return (
-      <div className="container">
-        {/* For Alert box*/}
-        <div id="oc-alert-container"></div>
-        {/* Single File Upload*/}
-        <div className="part">
-          <div className="single>">
-            <div
-              className="card border-light mb-3 mt-5"
-              style={{ boxShadow: "0 5px 10px 2px rgba(195,192,192,.5)" }}
-            >
-              <div className="card-header">
-                <div className="chead">
-                  <h3 style={{ color: "#555", marginLeft: "12px" }}>
-                    Single Image Upload
-                  </h3>
-                  <span className="pointer">
-                    <Setting color="primary"></Setting>
-                  </span>
+      <>
+        <Navbar></Navbar>
+        <div
+          className="container"
+          style={{ marginTop: "100px", marginBottom: "150px" }}
+        >
+          {/* For Alert box*/}
+          <div className="snack" id="oc-alert-container"></div>
+          {/* Single File Upload*/}
+          <div className="part" style={{ alignItems: "center" }}>
+            {/* <div className="single>">
+              <div
+                className="card border-light mb-3 mt-5"
+                style={{ boxShadow: "0 5px 10px 2px rgba(195,192,192,.5)" }}
+              >
+                <div className="card-header">
+                  <div className="chead">
+                    <h3 style={{ color: "#555", marginLeft: "12px" }}>
+                      Single Image Upload
+                    </h3>
+                    <span className="pointer">
+                      <Setting color="primary"></Setting>
+                    </span>
+                  </div>
+                  <p className="text-muted" style={{ marginLeft: "12px" }}>
+                    Upload Size: 250px x 250px ( Max 35MB )
+                  </p>
                 </div>
-                <p className="text-muted" style={{ marginLeft: "12px" }}>
-                  Upload Size: 250px x 250px ( Max 35MB )
-                </p>
-              </div>
-              <div className="card-body">
-                <p className="card-text">Please upload an image.</p>
-                <input type="file" onChange={this.singleFileChangedHandler} />
-                <div className="col-md-12 mt-3">
-                  <div className="imgcon" id="imgContainer">
-                    <div
-                      className="subContaner"
-                      id="hid"
-                      style={{ display: "none" }}
-                    >
-                      <p>Uploaded Images:</p>
+                <div className="card-body">
+                  <p className="card-text">Please upload an image.</p>
+                  <input type="file" onChange={this.singleFileChangedHandler} />
+                  <div className="col-md-12 mt-3">
+                    <div className="imgcon" id="imgContainer">
+                      <div
+                        className="subContaner"
+                        id="hid"
+                        style={{ display: "none" }}
+                      >
+                        <p>Uploaded Images:</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="mt-5">
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={this.singleFileUploadHandler}
-                  >
-                    Upload!
-                  </Button>
+                  <div className="mt-5">
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={this.singleFileUploadHandler}
+                    >
+                      Upload!
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          {/* Multiple File Upload */}
-          <div className="multi" style={{ marginTop: "30px" }}>
-            <div
-              className="card border-light mb-3"
-              style={{
-                boxShadow: "0 5px 10px 2px rgba(195,192,192,.5)",
-              }}
-            >
-              <div className="card-header">
-                <div className="chead">
-                  <h3 style={{ color: "#555", marginLeft: "12px" }}>
-                    Upload Muliple Images
-                  </h3>
-                  <span className="pointer">
-                    <Setting color="primary"></Setting>
-                  </span>
+            </div> */}
+            {/* Multiple File Upload */}
+            <div className="multi" style={{ marginTop: "30px" }}>
+              <div
+                className="card border-light mb-3"
+                style={{
+                  boxShadow: "0 5px 10px 2px rgba(195,192,192,.5)",
+                }}
+              >
+                <div className="card-header">
+                  <div className="chead">
+                    <h3 style={{ color: "#555", marginLeft: "12px" }}>
+                      Upload Images to Amazon S3 Bucket.
+                    </h3>
+                    <span className="pointer">
+                      <Setting color="primary"></Setting>
+                    </span>
+                  </div>
+                  <p className="text-muted" style={{ marginLeft: "12px" }}>
+                    Upload Size: 300px x 300px ( Max 35MB )
+                  </p>
                 </div>
-                <p className="text-muted" style={{ marginLeft: "12px" }}>
-                  Upload Size: 400px x 400px ( Max 35MB )
-                </p>
-              </div>
-              <div className="card-body">
-                <p className="card-text">Please upload multiple images.</p>
-                <input
-                  type="file"
-                  multiple
-                  onChange={this.multipleFileChangedHandler}
-                />
-                <div className="mt-5">
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={this.multipleFileUploadHandler}
-                  >
-                    Upload!
-                  </Button>
+                <div className="card-body">
+                  <p className="card-text">
+                    Please upload single or multiple images.
+                  </p>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={this.multipleFileChangedHandler}
+                  />
+                  <div className="dz" style={{ marginTop: "25px" }}></div>
+                  <div className="col-md-12 mt-3">
+                    <div className="imgcon" id="mulImgContainer">
+                      <div
+                        className="subContaner"
+                        id="mhid"
+                        style={{ display: "none" }}
+                      >
+                        <p>Uploaded Images:</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-5 but">
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={this.multipleFileUploadHandler}
+                    >
+                      Upload!
+                    </Button>
+                    <Button variant="contained" onClick={this.clearHandler}>
+                      Clear
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <Footer />
+      </>
     );
   }
 }

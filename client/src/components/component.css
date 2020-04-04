@@ -12,3 +12,14 @@
   height: 300px;
   margin: 10px;
 }
+
+.snack {
+  z-index: 99;
+}
+
+.footer {
+  flex-shrink: 0;
+  text-align: center;
+  background-color: tomato;
+  color: white;
+}

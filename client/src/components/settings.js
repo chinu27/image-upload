@@ -14,27 +14,25 @@ import Select from "@material-ui/core/Select";
 import Switch from "@material-ui/core/Switch";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   form: {
     display: "flex",
     flexDirection: "column",
     margin: "auto",
-    width: "fit-content"
+    width: "fit-content",
   },
   formControl: {
     marginTop: theme.spacing(2),
-    minWidth: 120
+    minWidth: 120,
   },
   formControlLabel: {
-    marginTop: theme.spacing(1)
-  }
+    marginTop: theme.spacing(1),
+  },
 }));
 
 export default function MaxWidthDialog() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState("sm");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,56 +42,20 @@ export default function MaxWidthDialog() {
     setOpen(false);
   };
 
-  const handleMaxWidthChange = event => {
-    setMaxWidth(event.target.value);
-  };
-
-  const handleFullWidthChange = event => {
-    setFullWidth(event.target.checked);
-  };
   return (
     <React.Fragment>
       <SettingsIcon color="primary" onClick={handleClickOpen} />
       <Dialog
-        fullWidth={fullWidth}
-        maxWidth={maxWidth}
         open={open}
         onClose={handleClose}
-        aria-labelledby="max-width-dialog-title"
+        aria-labelledby="settings-dialog-title"
       >
         <DialogTitle id="max-width-dialog-title">Upload Settings</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Please Select your Prefered Settings
           </DialogContentText>
-          <form className={classes.form} noValidate>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-              <Select
-                autoFocus
-                value={maxWidth}
-                onChange={handleMaxWidthChange}
-                inputProps={{
-                  name: "max-width",
-                  id: "max-width"
-                }}
-              >
-                <MenuItem value={false}>false</MenuItem>
-                <MenuItem value="xs">xs</MenuItem>
-                <MenuItem value="sm">sm</MenuItem>
-                <MenuItem value="md">md</MenuItem>
-                <MenuItem value="lg">lg</MenuItem>
-                <MenuItem value="xl">xl</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControlLabel
-              className={classes.formControlLabel}
-              control={
-                <Switch checked={fullWidth} onChange={handleFullWidthChange} />
-              }
-              label="Full width"
-            />
-          </form>
+          Hello
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
