@@ -7,25 +7,18 @@ const keys = require("../keys");
 
 const router = express.Router();
 
-/**
- * PROFILE IMAGE STORING STARTS
- */
-
 const s3 = new aws.S3({
   accessKeyId: keys.ACCESS_KEY,
   secretAccessKey: keys.ACCESS_PASS,
-  Bucket: "chinu-bucket"
+  Bucket: "chinu-bucket",
 });
 
-/**
- * Single Upload
- */
 const profileImgUpload = multer({
   storage: multerS3({
     s3: s3,
     bucket: "chinu-bucket",
     acl: "public-read",
-    key: function(req, file, cb) {
+    key: function (req, file, cb) {
       cb(
         null,
         path.basename(file.originalname, path.extname(file.originalname)) +
@@ -33,12 +26,12 @@ const profileImgUpload = multer({
           Date.now() +
           path.extname(file.originalname)
       );
-    }
+    },
   }),
-  limits: { fileSize: 2000000 }, // In bytes: 2000000 bytes = 2 MB
-  fileFilter: function(req, file, cb) {
+  limits: { fileSize: 35000000 },
+  fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
-  }
+  },
 }).single("profileImage");
 
 /**
@@ -67,7 +60,7 @@ function checkFileType(file, cb) {
  * @access public
  */
 router.post("/profile-img-upload", (req, res) => {
-  profileImgUpload(req, res, error => {
+  profileImgUpload(req, res, (error) => {
     console.log("requestOkokok", req.file);
     console.log("error", error);
     if (error) {
@@ -85,24 +78,19 @@ router.post("/profile-img-upload", (req, res) => {
         // Save the file name into database into profile model
         res.json({
           image: imageName,
-          location: imageLocation
+          location: imageLocation,
         });
       }
     }
   });
 });
 
-/**
- *
- * MULTIPLE FILE UPLOADS
- */
-// Multiple File Uploads ( max 4 )
 const uploadsBusinessGallery = multer({
   storage: multerS3({
     s3: s3,
     bucket: "chinu-bucket",
     acl: "public-read",
-    key: function(req, file, cb) {
+    key: function (req, file, cb) {
       cb(
         null,
         path.basename(file.originalname, path.extname(file.originalname)) +
@@ -110,20 +98,20 @@ const uploadsBusinessGallery = multer({
           Date.now() +
           path.extname(file.originalname)
       );
-    }
+    },
   }),
-  limits: { fileSize: 2000000 }, // In bytes: 2000000 bytes = 2 MB
-  fileFilter: function(req, file, cb) {
+  limits: { fileSize: 35000000 },
+  fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
-  }
-}).array("galleryImage", 4);
+  },
+}).array("galleryImage", 5);
 /**
  * @route POST /api/profile/multiple-file-upload
  * @desc Upload business Gallery images
  * @access public
  */
 router.post("/multiple-file-upload", (req, res) => {
-  uploadsBusinessGallery(req, res, error => {
+  uploadsBusinessGallery(req, res, (error) => {
     console.log("files", req.files);
     if (error) {
       console.log("errors", error);
@@ -146,7 +134,7 @@ router.post("/multiple-file-upload", (req, res) => {
         // Save the file name into database
         res.json({
           filesArray: fileArray,
-          locationArray: galleryImgLocationArray
+          locationArray: galleryImgLocationArray,
         });
       }
     }

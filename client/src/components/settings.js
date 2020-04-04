@@ -8,6 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -42,6 +43,12 @@ export default function MaxWidthDialog() {
     setOpen(false);
   };
 
+  const [age, setAge] = React.useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
   return (
     <React.Fragment>
       <SettingsIcon color="primary" onClick={handleClickOpen} />
@@ -55,7 +62,38 @@ export default function MaxWidthDialog() {
           <DialogContentText>
             Please Select your Prefered Settings
           </DialogContentText>
-          Hello
+
+          <div>
+            <FormControl component="fieldset">
+              <FormControlLabel
+                checked={true}
+                value="top"
+                control={<Switch color="secondary" />}
+                label="Enable Image Compression"
+                labelPlacement="start"
+              />
+            </FormControl>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-helper-label">
+                Bucket
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={age}
+                onChange={handleChange}
+              >
+                <MenuItem value={""}>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={1}>chinu-bucket</MenuItem>
+                <MenuItem value={1}> chinu-bucket</MenuItem>
+              </Select>
+              <FormHelperText>Select S3 bucket to upload to</FormHelperText>
+            </FormControl>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

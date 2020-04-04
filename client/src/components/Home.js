@@ -3,6 +3,7 @@ import axios from "axios";
 import $ from "jquery";
 import Setting from "./settings";
 import Navbar from "./navbar";
+import Progress from "./progress";
 import Footer from "./footer";
 import "./component.css";
 import Button from "@material-ui/core/Button";
@@ -52,7 +53,7 @@ class Home extends Component {
             // If file size is larger than expected.
             if (response.data.error) {
               if ("LIMIT_FILE_SIZE" === response.data.error.code) {
-                this.ocShowAlert("Max size: 2MB", "red");
+                this.ocShowAlert("Max size: 35MB", "red");
               } else {
                 console.log(response.data);
                 // If not the given file type
@@ -83,6 +84,7 @@ class Home extends Component {
       for (let i = 0; i < selectedFiles.length; i++) {
         data.append("galleryImage", selectedFiles[i], selectedFiles[i].name);
       }
+      this.showLoader();
       axios
         .post("/api/profile/multiple-file-upload", data, {
           headers: {
@@ -109,6 +111,7 @@ class Home extends Component {
               let fileName = response.data;
               console.log("fileName", fileName);
               this.ocShowAlert("File Uploaded", "#3089cf");
+              this.hideLoader();
               this.showMultiLocation(fileName);
             }
           }
@@ -125,6 +128,14 @@ class Home extends Component {
 
   //multi show
 
+  showLoader = () => {
+    $("#progress").show();
+  };
+
+  hideLoader = () => {
+    $("#progress").hide();
+  };
+
   showMultiLocation = (fileName) => {
     //console.log("m", fileName);
     var source = fileName.filesArray;
@@ -134,16 +145,11 @@ class Home extends Component {
       mulImgele.setAttribute("class", "imgt");
       mulImgele.setAttribute("src", id.location);
       mulImgContainer.appendChild(mulImgele);
+      $("#mulImgContainer").show();
       $("#mhid").show();
     });
 
     console.log(source);
-    // let imgContainer = document.querySelector("#imgContainer"),
-    //   imgelem = document.createElement("img");
-    // imgelem.setAttribute("class", "imgt");
-    // imgelem.setAttribute("src", source);
-    // imgContainer.appendChild(imgelem);
-    // $("#hid").show();
   };
 
   //show singleimage
@@ -179,6 +185,8 @@ class Home extends Component {
       selectedFile: null,
       selectedFiles: null,
     });
+    $("#mulImgContainer").hide();
+    console.log("clear");
   };
 
   render() {
@@ -190,55 +198,10 @@ class Home extends Component {
           className="container"
           style={{ marginTop: "100px", marginBottom: "150px" }}
         >
-          {/* For Alert box*/}
+          {/* For snack alert*/}
           <div className="snack" id="oc-alert-container"></div>
-          {/* Single File Upload*/}
+
           <div className="part" style={{ alignItems: "center" }}>
-            {/* <div className="single>">
-              <div
-                className="card border-light mb-3 mt-5"
-                style={{ boxShadow: "0 5px 10px 2px rgba(195,192,192,.5)" }}
-              >
-                <div className="card-header">
-                  <div className="chead">
-                    <h3 style={{ color: "#555", marginLeft: "12px" }}>
-                      Single Image Upload
-                    </h3>
-                    <span className="pointer">
-                      <Setting color="primary"></Setting>
-                    </span>
-                  </div>
-                  <p className="text-muted" style={{ marginLeft: "12px" }}>
-                    Upload Size: 250px x 250px ( Max 35MB )
-                  </p>
-                </div>
-                <div className="card-body">
-                  <p className="card-text">Please upload an image.</p>
-                  <input type="file" onChange={this.singleFileChangedHandler} />
-                  <div className="col-md-12 mt-3">
-                    <div className="imgcon" id="imgContainer">
-                      <div
-                        className="subContaner"
-                        id="hid"
-                        style={{ display: "none" }}
-                      >
-                        <p>Uploaded Images:</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-5">
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      onClick={this.singleFileUploadHandler}
-                    >
-                      Upload!
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            {/* Multiple File Upload */}
             <div className="multi" style={{ marginTop: "30px" }}>
               <div
                 className="card border-light mb-3"
@@ -264,22 +227,25 @@ class Home extends Component {
                     Please upload single or multiple images.
                   </p>
                   <input
+                    style={{
+                      flex: 1,
+                      borderWidth: 1,
+                      borderStyle: "dashed",
+                      borderColor: "#B5C9D5",
+                      borderRadius: 5,
+                      height: "100%",
+                      width: "100%",
+                      backgroundColor: "white",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      alignContent: "center",
+                      padding: 10,
+                    }}
                     type="file"
                     multiple
                     onChange={this.multipleFileChangedHandler}
                   />
-                  <div className="dz" style={{ marginTop: "25px" }}></div>
-                  <div className="col-md-12 mt-3">
-                    <div className="imgcon" id="mulImgContainer">
-                      <div
-                        className="subContaner"
-                        id="mhid"
-                        style={{ display: "none" }}
-                      >
-                        <p>Uploaded Images:</p>
-                      </div>
-                    </div>
-                  </div>
+
                   <div className="mt-5 but">
                     <Button
                       color="primary"
@@ -288,9 +254,31 @@ class Home extends Component {
                     >
                       Upload!
                     </Button>
-                    <Button variant="contained" onClick={this.clearHandler}>
+                    <Button
+                      variant="contained"
+                      style={{ marginLeft: "10px" }}
+                      onClick={this.clearHandler}
+                    >
                       Clear
                     </Button>
+                    <div
+                      className="progress"
+                      id="progress"
+                      style={{ display: "none" }}
+                    >
+                      <Progress></Progress>
+                    </div>
+                    <div className="col-md-12 mt-3">
+                      <div className="imgcon" id="mulImgContainer">
+                        <div
+                          className="subContaner"
+                          id="mhid"
+                          style={{ display: "none" }}
+                        >
+                          <p>Uploaded Images:</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
