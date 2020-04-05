@@ -1,4 +1,3 @@
-deploy: stop
-		npm run client-install
+deploy: npm run client-install
 		npm install
 		npm run build
