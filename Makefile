@@ -1,2 +1,3 @@
-deploy: npm run client-install
+publish: npm run client-install
 		npm run build
+		npm publish
