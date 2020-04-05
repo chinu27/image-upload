@@ -1,11 +1,11 @@
 {
   "name": "react-node-boilerplate",
   "version": "1.0.0",
-  "description": "A React Js and Node Js boilerplate for building a new project. It uses create-react-app",
+  "description": " It uses create-react-app",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "node server.js",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
@@ -13,7 +13,7 @@
   "engines": {
     "node": "10.10.0"
   },
-  "author": "Imran Sayed",
+  "author": "Chinu",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.329.0",
