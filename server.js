@@ -23,11 +23,22 @@ app.use("/api/profile", profile);
 // Combine react and node js servers while deploying( YOU MIGHT HAVE ALREADY DONE THIS BEFORE
 // What you need to do is make the build directory on the heroku, which will contain the index.html of your react app and then point the HTTP request to the client/build directory
 
-// Set a static folder
-app.use(express.static("client/build"));
-app.get("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-);
+if (process.env.NODE_ENV === "production") {
+  // Set a static folder
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+}
+// if (process.env.NODE_ENV === 'production') {
+//   // Serve any static files
+//   app.use(express.static(path.join(__dirname, 'client/build')));
+
+//   // Handle React routing, return all requests to React app
+//   app.get('*', function(req, res) {
+//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+//   });
+// }
 
 // Set up a port
 const port = process.env.PORT || 5000;

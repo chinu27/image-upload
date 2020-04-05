@@ -10,7 +10,7 @@
     "client": "npm build --prefix client",
     "pub": "run-p client start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "run-s client-install pub"
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "engines": {
     "node": "10.10.0"
