@@ -4,11 +4,12 @@
   "description": " It uses create-react-app",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently   \"node server.js\" \"npm run client-install\" ",
+    "start": "node server.js ",
     "server": "nodemon server.js",
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "concurrently \"npm run start\" \"npm run client-install\""
   },
   "engines": {
     "node": "10.10.0"
